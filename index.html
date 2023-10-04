@@ -1,76 +1,22 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-    <title>FSD JavaScript Project</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
-        }
-
-        h1 {
-            text-align: center;
-            color: #333;
-        }
-
-        form {
-            width: 50%;
-            margin: 0 auto;
-            background: #f9f9f9;
-            padding: 20px;
-            border-radius: 5px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 5px;
-        }
-
-        input[type="text"],
-        input[type="email"],
-        select {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 3px;
-        }
-
-        input[type="submit"] {
-            background: #007bff;
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            cursor: pointer;
-        }
-
-        input[type="submit"]:hover {
-            background: #0056b3;
-        }
-
-        select:disabled {
-            background: #f1f1f1;
-        }
-
-        .error-message {
-            color: #ff0000;
-        }
-    </style>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Validation</title>
 </head>
+
 <body>
-    <h1>FSD JavaScript Project</h1>
     <form id="myForm" action="process_form.php" method="post" onsubmit="return validateForm()">
         <label for="name">Name:</label>
-        <input type="text" id="name" required><br><br>
+        <input type="text" id="name" required><br>
 
-        <label for="phone">Phone Number:</label>
-        <input type="text" id="phone" required pattern="[0-9]{10}">
-        <span class="error-message">(10 digits)</span><br><br>
+        <label for="phone">Phone number:</label>
+        <input type="tel" id="phone" required><br>
 
         <label for="email">Email Address:</label>
-        <input type="email" id="email" required><br><br>
+        <input type="email" id="email" required><br>
 
         <label for="state">State:</label>
         <select id="state" required>
@@ -78,25 +24,60 @@
             <option value="Maharashtra">Maharashtra</option>
             <option value="Karnataka">Karnataka</option>
             <option value="Gujarat">Gujarat</option>
-        </select><br><br>
+        </select><br>
 
         <label for="city">City:</label>
         <select id="city" required>
             <option value="" disabled selected>Select City</option>
-        </select><br><br>
+        </select><br>
 
         <label for="country">Country:</label>
-        <input type="text" id="country" required><br><br>
+        <input type="text" id="country" required><br>
 
-        <label for="pincode">Pin Code:</label>
-        <input type="text" id="pincode" required pattern="[0-9]{6}">
-        <span class="error-message">(6 digits)</span><br><br>
+        <label for="pincode">Pin code:</label>
+        <input type="text" id="pincode" required><br>
 
-        <input type="submit" value="Submit">
+        <button type="button" onclick="validateForm()">Submit</button>
     </form>
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-       
+        const citiesByState = {
+            "Maharashtra": ["Mumbai", "Pune", "Nagpur", "Nashik", "Aurangabad", "Solapur", "Amravati", "Kolhapur", "Sangli", "Satara"],
+            "Karnataka": ["Bangalore", "Mysore", "Hubli", "Belgaum", "Mangalore", "Gulbarga", "Davanagere", "Shimoga", "Bellary", "Tumkur"],
+            "Gujarat": ["Ahmedabad", "Surat", "Vadodara", "Rajkot", "Bhavnagar", "Jamnagar", "Junagadh", "Gandhinagar", "Anand", "Bharuch"]
+        };
+
+        // Populate city dropdown based on selected state
+        $('#state').change(function () {
+            const selectedState = $(this).val();
+            const cities = citiesByState[selectedState];
+            $('#city').empty().append($('<option value="" disabled selected>Select City</option>'));
+            cities.forEach(function (city) {
+                $('#city').append($('<option>', {
+                    value: city,
+                    text: city
+                }));
+            });
+        });
+
+        function validateForm() {
+            const name = document.getElementById('name').value;
+            const phone = document.getElementById('phone').value;
+            const email = document.getElementById('email').value;
+            const state = document.getElementById('state').value;
+            const city = document.getElementById('city').value;
+            const country = document.getElementById('country').value;
+            const pincode = document.getElementById('pincode').value;
+
+            if (name && phone && email && state && city && country && pincode) {
+                alert('Form submitted successfully!');
+                // You can also submit the form data using AJAX here if needed.
+            } else {
+                alert('Please fill out all fields.');
+            }
+        }
     </script>
 </body>
+
 </html>
